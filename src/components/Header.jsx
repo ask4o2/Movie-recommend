@@ -1,9 +1,12 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { select_count } from "../store/appSlice";
 
 const Header = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const count = useSelector(select_count);
 
   console.log(pathname);
 
@@ -37,6 +40,7 @@ const Header = () => {
         </div>
 
         <div className="gap-3 flex">
+          <p>Count {count.length}</p>
           <p className="cursor">Search</p>
           <p className="cursor">Profile</p>
         </div>

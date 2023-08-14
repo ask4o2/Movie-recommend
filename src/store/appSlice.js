@@ -22,6 +22,7 @@ const initialState = {
   show_genre: [],
   show_genre_liked: [],
   error: {},
+  count: [],
   loading: false,
 };
 
@@ -85,6 +86,10 @@ export const show_genres = createAsyncThunk("tv/genre", async () => {
   return res;
 });
 
+// export const add_count = createAsyncThunk("fav/count",    async() => {
+//   count++
+// }    )
+
 export const appSlice = createSlice({
   name: "app",
   initialState,
@@ -94,6 +99,16 @@ export const appSlice = createSlice({
     },
     set_movie_genre_liked: (state, action) => {
       state.movie_genre_liked.push(action.payload.id);
+    },
+    add_count: (state, action) => {
+      if (state.count.includes(action.payload)) {
+        state.count = state.count.filter((it) => it !== action.payload);
+      } else {
+        state.count.push(action.payload);
+      }
+    },
+    remove_count: (state, action) => {
+      state.count = state.count.filter((it) => it !== action.payload);
     },
   },
   extraReducers: (builder) => {
@@ -209,10 +224,12 @@ export const select_movie = (state) => state.app.movie;
 export const select_movie_genre = (state) => state.app.movie_genre;
 export const select_movie_recommendations = (state) =>
   state.app.movie_recommendations;
+export const { add_count, remove_count } = appSlice.actions;
 
 export const select_shows = (state) => state.app.shows;
 export const select_show = (state) => state.app.show;
 export const select_show_genre = (state) => state.app.show_genre;
 export const select_shows_trending = (state) => state.app.shows_trending;
+export const select_count = (state) => state.app.count;
 
 export default appSlice.reducer;

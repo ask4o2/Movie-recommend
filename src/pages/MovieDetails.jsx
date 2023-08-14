@@ -1,8 +1,10 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  add_count,
   movie_recommend,
   one_movie,
+  remove_count,
   select_movie,
   select_movie_recommendations,
 } from "../store/appSlice";
@@ -19,10 +21,16 @@ const MovieDetails = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
 
+  console.log(id);
+
   useEffect(() => {
     dispatch(one_movie(id));
     dispatch(movie_recommend(id));
   }, [id]);
+
+  const changeCount = (id) => {
+    dispatch(add_count(id));
+  };
 
   return (
     <div className="relative">
@@ -65,7 +73,10 @@ const MovieDetails = () => {
               <button className="rounded-full px-4 p-2 text-center border-2 text-xs hover:bg-white hover:text-black">
                 Watch trailer
               </button>
-              <button className="w-9 h-9 rounded-full grid place-items-center border-2">
+              <button
+                onClick={() => changeCount(id)}
+                className="w-9 h-9 rounded-full grid place-items-center border-2"
+              >
                 <AiOutlinePlus />
               </button>
             </div>
